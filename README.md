@@ -16,7 +16,7 @@ Another good step would be to visual some examples of the data we are classifyin
 [exTrainImgs]: ./2_exTrainImgs.png
 ![Example of Training Images - 3 randomly chosen][exTrainImgs]
 
-Visualizing our data this way can help us to think of better ways to pre-process our data and design our model. As an example, utilizing the RGB color channels may help to provide a bit more info when input into the model. I chose this route and used each of the RGB channels as separate data. 
+Visualizing our data this way can help us to think of better ways to pre-process our data and design our model. As an example, utilizing the RGB color channels may help to provide a bit more info when input into the model. I chose this route and used each of the RGB channels as separate data. Each image is a **32x32x3**. The last dimension represents the three RGB color channels.
 
 #### Building the Model - LeNet-5
 My model is essentially a LeNet-5 model using the 3 RGB layers as input for each image. Pre-processing was simply normalization of each image by subtracting the mean of each image color channel's values and then dividing by the standard deviation. I chose this simple normaliztion for it's simplicity and necessity.
@@ -54,6 +54,9 @@ I'll use the LeNet architecture which accepts a 32x32 image composed of 3 color 
 ###### Output
 Return the result of the 2nd fully connected layer.
 
+#### Model Overview
+In layers 1 and 2, I used convolutional networks. In layers 3, 4 and 5 I used fully connected ones. This follows the flow of LeNet and the convnets aid in possible underfitting. The activations used are simple ReLUs, as they also help in providing a smooth, continuous approximation to the max(0,x) function. Additionally, I used the *dropout* technique in *Layer 4* with a value of *0.5*. This results in dropping half of the activations which aids to minimize overfitting.
+
 #### Hyperparameter Choice
 I chose my hyperparameters after some trial and error. The learning rate was kept fairly small at 2.5e-4 to allow for a more gradual and stable ascent in accuracy. 300 epochs and a batch size of 128 were chosen to allow better accuracy and stability as well. I found that if I had used larger batches the accuracy would jump wildly. If I used fewer epochs, say 100, I wouldn't have gotten some appreciable, if not still marginal, increases in accuracy; increasing the epochs showed me that there was much learning still left, given no change in the other hyperparameters.
 
@@ -74,6 +77,8 @@ Running my model on these resulted in 66.7% or two-thirds accuracy; meaning, I c
 ![Top-5 Softmax values for the 6 test images.][softmax]
 
 We can see right off that image 2, which is correctly ID 1, was seen as 11, 10, 2, 40 & 12 with somewhat similar probabilities for 11 & 10. Another pecularity is image 5 which has a correct ID of 36. However, the model seems to be certain that it's an ID 25 with a distant second of ID 36. I can only speculate that my preprocessing didn't help add more information. Image 5 might be a bit darker with the blue; however, image 6 is also a bit dark but was classified correctly with effectively 100% accuracy.
+
+Focusing on image 5, I believe the contrast was poor. Additionally, the presence of other sign fragments may have confused it initially and biased it to those with a higher contrast (red/white bordering).
 
 #### Summary
 I used a rather simple architecture and pipeline, choosing to forego complicated preprocessing and a more complicated model for simplicity and ease of tuning, while still meeting the 93% accuracy requirement. I did notice in some forums that folks simple used a grayscale image (flattened into a single, monochrome color layer) and were able to to get higher accuracies.
