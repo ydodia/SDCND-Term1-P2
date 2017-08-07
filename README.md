@@ -73,9 +73,6 @@ These images don't appear to be difficult to classify. The lighting is good, pro
 
 Running my model on these resulted in 66.7% or two-thirds accuracy; meaning, I classified only 4 out of 6 correctly. An analysis of the softmax probabilities gives us a cursory look at why 2 of the images weren't classified correctly.
 
-[softmax]: ./4_softmax.png
-![Top-5 Softmax values for the 6 test images.][softmax]
-
 We can see right off that image 2, which is correctly ID 1, was seen as 11, 10, 2, 40 & 12 with somewhat similar probabilities for 11 & 10. Another pecularity is image 5 which has a correct ID of 36. However, the model seems to be certain that it's an ID 25 with a distant second of ID 36. I can only speculate that my preprocessing didn't help add more information. Image 5 might be a bit darker with the blue; however, image 6 is also a bit dark but was classified correctly with effectively 100% accuracy.
 
 Focusing on image 5, I believe the contrast was poor. Additionally, the presence of other sign fragments may have confused it initially and biased it to those with a higher contrast (red/white bordering).
